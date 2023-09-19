@@ -1,22 +1,25 @@
 "use client"
 import React, {useState} from "react";
 import {useRouter} from "next/navigation";
-import {AuthUser, Login} from "@/app/api/route";
+import {useLogin} from "@/hooks/auth/useLogin";
 
 const Page = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const router = useRouter()
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(false)
+  const {login} = useLogin();
+  const router = useRouter();
   const onLoginButtonClick = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
-    console.log(email)
-    console.log(password);
-    Login({email, password}).then((res)=>{
-      console.log(res.status)
-      if(res.status === 200){
-        localStorage.setItem("token",res.data.token)
-        router.push("/question")
-      }
-    })
+    login(username,password)
+      .then((res) => {
+        if(res.status === 200){
+          router.push("/question")
+          setError(false)
+        }else{
+          setError(true)
+        }
+      })
+      .catch((e) => alert(e));
   }
   return (
     <>
@@ -30,17 +33,18 @@ const Page = () => {
             <div className="card-body">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">邮箱</span>
+                  <span className="label-text">用户名</span>
                 </label>
-                <input type="text" placeholder="email" onChange={e=>{setEmail(e.target.value)}} className="input input-bordered"/>
+                <input type="text" placeholder="用户名" onChange={e=>{setUsername(e.target.value)}} className="input input-bordered"/>
               </div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">密码</span>
                 </label>
-                <input type="password" placeholder="password" onChange={e=>{setPassword(e.target.value)}}  className="input input-bordered"/>
-                <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">没有账号？点击这里注册</a>
+                <input type="password" placeholder="密码" onChange={e=>{setPassword(e.target.value)}}  className="input input-bordered"/>
+                <label className="label flex-col">
+                  <a href="/register" className="label-text-alt link link-hover">没有账号？点击这里注册</a>
+                  <a className={`${error?"":"hidden"} text-red-500 label-text-alt link link-hover`}>登录失败,请检查账号或密码</a>
                 </label>
               </div>
               <div className="form-control mt-6">

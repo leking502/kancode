@@ -1,6 +1,14 @@
+"use client"
 import React from "react";
+import {useLogout} from "@/hooks/auth/useLogout";
+import {useRouter} from "next/navigation";
 
 const QuestionLayout = ({children,}: { children: React.ReactNode })=>{
+  const router = useRouter()
+  const {logout} = useLogout()
+  const onLogoutClick = ()=>{
+    logout().then(()=>router.push("/login"))
+  }
   return(
     <>
       <div className={"w-96 sm:w-full divide-y divide-gray-300"}>
@@ -26,7 +34,7 @@ const QuestionLayout = ({children,}: { children: React.ReactNode })=>{
                   </a>
                 </li>
                 <li><a>Settings</a></li>
-                <li><a>Logout</a></li>
+                <li><a onClick={()=>{onLogoutClick()}}>Logout</a></li>
               </ul>
             </div>
           </div>

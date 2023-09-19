@@ -2,7 +2,7 @@
 import {useState} from "react";
 import {router} from "next/client";
 import {useRouter} from "next/navigation";
-import {AuthUser} from "@/app/api/route";
+import {AuthUser} from "@/app/api/auth";
 
 const questions = [
   {
@@ -49,11 +49,6 @@ const questions = [
   },
 ]
 const Page = () => {
-  const token = localStorage.getItem("token")
-  if(token === null){
-    const router = useRouter()
-    router.push("/login")
-  }
   const [currentPage, setCurrentPage] = useState(1);
   const questionsPerPage = 4; // 每页显示的用户数量
   const totalPages = Math.ceil(questions.length / questionsPerPage);
