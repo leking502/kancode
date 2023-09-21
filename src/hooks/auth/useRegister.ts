@@ -5,7 +5,7 @@ export const useRegister = ()=>{
   const register = async (username:string,password:string)=>{
     const res = await Register(username,password);
     if(res.status === 200){
-      Cookies.set("userToken",JSON.stringify(res.token));
+      Cookies.set("userToken",res.token);
     }
     return res;
   }

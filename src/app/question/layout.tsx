@@ -9,6 +9,9 @@ const QuestionLayout = ({children,}: { children: React.ReactNode })=>{
   const onLogoutClick = ()=>{
     logout().then(()=>router.push("/login"))
   }
+  const onAskClick = ()=>{
+    router.push("/question/ask")
+  }
   return(
     <>
       <div className={"w-96 sm:w-full divide-y divide-gray-300"}>
@@ -27,13 +30,6 @@ const QuestionLayout = ({children,}: { children: React.ReactNode })=>{
                 </div>
               </label>
               <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-                <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </a>
-                </li>
-                <li><a>Settings</a></li>
                 <li><a onClick={()=>{onLogoutClick()}}>Logout</a></li>
               </ul>
             </div>
@@ -43,12 +39,13 @@ const QuestionLayout = ({children,}: { children: React.ReactNode })=>{
           <div className={"hidden bg-red-50 sm:flex sm:w-60 "}>
             <ul className="menu w-full bg-base-200 rounded-box">
               <li><a className={"active"} href={"/question"}>问题</a></li>
-              <li><a>Item 2</a></li>
-              <li><a>Item 3</a></li>
             </ul>
           </div>
           <div className={"w-full max-w-2xl min-w-sm"}>
             {children}
+          </div>
+          <div className={"hidden lg:flex lg:w-60 p-3"}>
+            <button className={"btn w-full"} onClick={()=>{onAskClick()}}>提问</button>
           </div>
         </div>
       </div>

@@ -5,7 +5,8 @@ export const useLogin = ()=>{
   const login = async (username:string,password:string)=>{
     const res = await Login(username,password);
     if(res.status === 200){
-      Cookies.set("userToken",JSON.stringify(res.token));
+      console.log(res.token)
+      Cookies.set("userToken",res.token);
     }
     return res;
   }

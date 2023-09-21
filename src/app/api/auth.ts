@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import {AuthRes} from "@/types/user";
+import {AuthRes, UserRes} from "@/types/user";
 
 export async function Register(username: string, password:string) {
   const form = new FormData();
@@ -38,16 +38,13 @@ export async function Logout(token:string) {
   })
   return res.ok;
 }
-export async function AuthUser(token:any) {
+export async function AuthUser(token:string) {
   const res = await fetch(`http://127.0.0.1:8080/user/getData?token=${token}`, {
     method: 'GET',
     // @ts-ignore
     headers: {
     },
   })
-  if(res.ok) {
-    console.log("error")
-    const data = await res.json()
-    return {status: res.status, data: data}
-  }
+  const data = await res.json()
+  return {status: res.status, msg: data.msg,username:data.username} as UserRes
 }
