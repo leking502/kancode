@@ -1,4 +1,4 @@
-import {GetCommentCount, GetQuestionCount} from "@/app/api/question";
+import {GetCommentCount} from "@/app/api/question";
 
 export const useGetCommentCount = ()=>{
   const getCommentCount = async (questionId:string)=>{

@@ -1,4 +1,4 @@
-import {GetCommentList, GetQuestion, GetQuestionList} from "@/app/api/question";
+import {GetCommentList} from "@/app/api/question";
 
 export const useGetCommentList = ()=>{
   const getCommentList = async (page:number,pageSize:number,questionId:string)=>{

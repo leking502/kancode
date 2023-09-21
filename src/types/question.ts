@@ -14,3 +14,10 @@ export interface Comment{
   text:string,
   date:string,
 }
+export interface SubComment{
+  _id:string,
+  username:string,
+  commentId:string
+  text:string,
+  date:string,
+}

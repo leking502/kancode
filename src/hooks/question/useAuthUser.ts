@@ -1,4 +1,4 @@
-import {AuthUser, Login} from "@/app/api/auth";
+import {AuthUser} from "@/app/api/auth";
 import Cookies from "js-cookie";
 
 export const useAuthUser = ()=>{

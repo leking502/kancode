@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import {AddComment, AskQuestion} from "@/app/api/question";
+import {AddComment} from "@/app/api/question";
 
 export const useAddComment = ()=>{
   const addComment = async (questionId: string,username:string,text:string)=>{

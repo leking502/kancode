@@ -1,7 +1,7 @@
 "use client"
 import {useState} from "react";
-import {useAskQuestion} from "@/hooks/auth/useAskQuestion";
-import {useAuthUser} from "@/hooks/auth/useAuthUser";
+import {useAskQuestion} from "@/hooks/question/useAskQuestion";
+import {useAuthUser} from "@/hooks/question/useAuthUser";
 import {useRouter} from "next/navigation";
 
 const Page = ()=>{

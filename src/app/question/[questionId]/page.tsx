@@ -1,12 +1,14 @@
 "use client"
-import {useGetQuestion} from "@/hooks/auth/useGetQuestion";
+import {useGetQuestion} from "@/hooks/question/useGetQuestion";
 import {ChangeEvent, useEffect, useState} from "react";
-import {useAddComment} from "@/hooks/auth/useAddComment";
-import {useAuthUser} from "@/hooks/auth/useAuthUser";
+import {useAddComment} from "@/hooks/question/useAddComment";
+import {useAuthUser} from "@/hooks/question/useAuthUser";
 import {Comment, Question} from "@/types/question";
-import {useGetCommentList} from "@/hooks/auth/useGetCommentList";
-import {useGetCommentCount} from "@/hooks/auth/useGetCommentCount";
+import {useGetCommentList} from "@/hooks/question/useGetCommentList";
+import {useGetCommentCount} from "@/hooks/question/useGetCommentCount";
 import getUpdateTime from "@/util/date";
+import SubComment from "@/components/SubComment";
+import {useAddSubComment} from "@/hooks/question/useAddSubComment";
 
 const comments:Comment[] = []
 const _question:Question = {
@@ -31,6 +33,7 @@ const Page = ({params}:{params:{questionId:string}})=>{
   const [subCommentInputId, setSubCommentInputId] = useState('')
   const [subCommentText, setSubCommentText] = useState('')
 
+  const {addSubComment} = useAddSubComment()
   const {getQuestion} =  useGetQuestion()
   const {getCommentCount} =  useGetCommentCount()
   const {getCommentList} =  useGetCommentList()
@@ -38,15 +41,21 @@ const Page = ({params}:{params:{questionId:string}})=>{
   const {authUser} = useAuthUser()
   useEffect(()=>{
     getQuestion(params.questionId).then((res)=>{
-      setQuestion(res.question)
+      if(res.status === 200){
+        setQuestion(res.question)
+      }
     })
     getCommentCount(params.questionId).then((res)=>{
-      setTotalPages(Math.ceil(res.commentCount / commentsPerPage))
+      if(res.status === 200){
+        setTotalPages(Math.ceil(res.commentCount / commentsPerPage))
+      }
     })
   },[])
   useEffect(()=>{
     getCommentList(currentPage,commentsPerPage,params.questionId).then((res)=>{
-      setCommentList(res.commentList)
+      if(res.status === 200){
+        setCommentList(res.commentList)
+      }
     })
   },[currentPage])
   const onCommentInput = (e:ChangeEvent<HTMLTextAreaElement>)=>{
@@ -62,14 +71,21 @@ const Page = ({params}:{params:{questionId:string}})=>{
       })
     })
   }
-  const subCommentClick= ()=>{
-    console.log(subCommentText)
+  const onSubCommentClick= ()=>{
+    authUser().then((username)=>{
+      if(username === undefined) return
+      addSubComment(subCommentInputId,username,subCommentText).then((res)=>{
+        if(res?.status === 200){
+          location.reload()
+        }
+      })
+    })
   }
   const showInput = ()=>{
     return(
-      <div className={"flex justify-between"}>
-        <input onChange={e=>setSubCommentText(e.target.value)} type="text" placeholder="Type here" className="input input-bordered input-md w-full"/>
-        <button className={"btn"} onClick={subCommentClick}>提交</button>
+      <div className={"flex justify-between py-3 pl-6"}>
+        <textarea onChange={e=>setSubCommentText(e.target.value)} placeholder="在这里输入" className="input input-bordered input-md w-full"/>
+        <button className={"btn"} onClick={onSubCommentClick}>提交</button>
       </div>
     )
   }
@@ -82,8 +98,8 @@ const Page = ({params}:{params:{questionId:string}})=>{
         <div className={"mx-3"}>
           <div className={"flex flex-row py-6"}>
             <div className={"flex flex-col"}>
-              <button className={"btn mr-3"}>点赞</button>
-              <button className={"btn mr-3"}>点踩</button>
+              <div className={"pb-6"}><button className={"btn mr-3"}>赞</button></div>
+              <div><button className={"btn mr-3"}>踩</button></div>
             </div>
             <text className={"w-full"}>{question.text}</text>
           </div>
@@ -94,26 +110,33 @@ const Page = ({params}:{params:{questionId:string}})=>{
             </div>
           </div>
           <div>
-            <ul className={" divide-y divide-gray-300"}>
+            <ul className={"divide-y divide-gray-400"}>
               {commentList.map((comment,index)=>{
                 return (
                   <li key={comment._id} className={""}>
                     <div className={"flex flex-row py-6"}>
-                      <div className={" flex flex-col"}>
-                        <div><button className={"btn"}>点赞</button></div>
-                        <div><button className={"btn"}>点赞</button></div>
+                      <div className={"flex flex-col"}>
+                        <div className={"pb-6"}><button className={"btn"}>赞</button></div>
+                        <div><button className={"btn"}>踩</button></div>
                       </div>
-                      <div className={"w-full mx-3"}>{comment.text}</div>
+                      <div className={"w-full mx-3 break-all"}>{comment.text}</div>
                     </div>
                     <div className={"flex text-sm px-6 pb-3 justify-between "}>
-                      <div>{comment.username}</div>
+                      <div></div>
+                      <div>
+                        <div>{comment.username}</div>
+                        <div>{getUpdateTime(parseInt(comment.date))}</div>
+                      </div>
+
+                    </div>
+                    <SubComment commentId={comment._id}/>
+                    {comment._id===subCommentInputId?showInput():<></>}
+                    {comment._id!==subCommentInputId?<div className={"pb-3 pl-6 text-gray-500"}>
                       <button onClick={()=>{
                         setSubCommentInputId(comment._id)
                         setSubCommentText('')
                       }}>回复</button>
-                      <div>{getUpdateTime(parseInt(comment.date))}</div>
-                    </div>
-                    {comment._id===subCommentInputId?showInput():<></>}
+                    </div>:<></>}
                   </li>
                 )
               })}

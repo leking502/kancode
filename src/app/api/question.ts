@@ -86,7 +86,7 @@ export async function AddComment(questionId:string,username: string,text:string,
 }
 
 export async function GetSubCommentList(page:number,pageSize:number,commentId:string) {
-  const res = await fetch(`http://127.0.0.1:8081/question/getSubCommentList?page=${page}&page_size=${pageSize}&question_id=${commentId}`, {
+  const res = await fetch(`http://127.0.0.1:8081/question/getSubCommentList?page=${page}&page_size=${pageSize}&comment_id=${commentId}`, {
     method: 'GET',
     // @ts-ignore
     headers: {
@@ -96,7 +96,7 @@ export async function GetSubCommentList(page:number,pageSize:number,commentId:st
   return {status: res.status, msg: data.msg,subCommentList:data.sub_comment_list}
 }
 export async function GetSubCommentCount(commentId:string) {
-  const res = await fetch(`http://127.0.0.1:8081/question/getSubCommentCount?question_id=${commentId}`, {
+  const res = await fetch(`http://127.0.0.1:8081/question/getSubCommentCount?comment_id=${commentId}`, {
     method: 'GET',
     // @ts-ignore
     headers: {

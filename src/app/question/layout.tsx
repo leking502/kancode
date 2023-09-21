@@ -7,6 +7,7 @@ const QuestionLayout = ({children,}: { children: React.ReactNode })=>{
   const router = useRouter()
   const {logout} = useLogout()
   const onLogoutClick = ()=>{
+    console.log("logout")
     logout().then(()=>router.push("/login"))
   }
   const onAskClick = ()=>{
@@ -14,14 +15,14 @@ const QuestionLayout = ({children,}: { children: React.ReactNode })=>{
   }
   return(
     <>
-      <div className={"w-96 sm:w-full divide-y divide-gray-300"}>
+      <div className={"w-full min-w-sm sm:w-full divide-y divide-gray-300"}>
         <div className="navbar justify-around bg-base-100">
           <div className="flex">
             <a className="btn btn-ghost normal-case text-xl">建码</a>
           </div>
           <div className="flex-none gap-2">
             <div className="form-control">
-              <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
+              <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" disabled/>
             </div>
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">

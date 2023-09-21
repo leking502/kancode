@@ -3,9 +3,9 @@ import {useEffect, useState} from "react";
 import {router} from "next/client";
 import {useRouter} from "next/navigation";
 import {AuthUser} from "@/app/api/auth";
-import {useGetQuestionList} from "@/hooks/auth/useGetQuestionList";
+import {useGetQuestionList} from "@/hooks/question/useGetQuestionList";
 import {Question} from "@/types/question";
-import {useGetQuestionCount} from "@/hooks/auth/useGetQuestionCount";
+import {useGetQuestionCount} from "@/hooks/question/useGetQuestionCount";
 import getUpdateTime from "@/util/date";
 
 const questions:Question[] = []
@@ -45,10 +45,10 @@ const Page = () => {
           <ul role="list" className={"divide-y divide-gray-300"}>
             {questionList.map((question,index)=>(
               <li key={question._id} className={"flex gap-x-6"}>
-                <div className={"flex-col  w-full px-12 py-5"}>
+                <div className={"flex-col w-full px-12 py-5"}>
                   <div className={"flex flex-col"}>
-                    <a className={"text-blue-900 text-1xl"} href={`/question/${question._id}`}>{question.title}</a>
-                    <p className={"text-xs text-gray-600"}>{question.abstract}</p>
+                    <a className={"text-blue-900 text-1xl break-all"} href={`/question/${question._id}`}>{question.title}</a>
+                    <p className={"text-xs text-gray-600 break-all"}>{question.abstract}</p>
                   </div>
                   <div className={"flex flex-col sm:flex-row sm:justify-between"}>
                     <p className="text-sm leading-6 text-gray-900">{question.username}</p>
