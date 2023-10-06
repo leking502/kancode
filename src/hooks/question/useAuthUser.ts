@@ -9,7 +9,7 @@ export const useAuthUser = ()=>{
     if(res.status === 200){
       return res.username;
     }
-    console.log(res.msg)
+    alert(res.msg)
   }
   return {authUser}
 }

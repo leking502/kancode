@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
 import {AuthRes, UserRes} from "@/types/user";
 
+const authUrl = "http://43.139.123.116:8080/"
 export async function Register(username: string, password:string) {
   const form = new FormData();
   form.append("username",username)
   form.append("password",password)
-  const res = await fetch('http://127.0.0.1:8080/register', {
+  const res = await fetch(authUrl+'register', {
     method: 'POST',
     // @ts-ignore
     headers: {
@@ -19,7 +20,7 @@ export async function Login(username: string, password:string) {
   const form = new FormData();
   form.append("username",username)
   form.append("password",password)
-  const res = await fetch('http://127.0.0.1:8080/login', {
+  const res = await fetch(authUrl+'login', {
     method: 'POST',
     // @ts-ignore
     headers: {
@@ -30,7 +31,7 @@ export async function Login(username: string, password:string) {
   return {status:res.status,msg:data.msg,token:data.token} as AuthRes
 }
 export async function Logout(token:string) {
-  const res = await fetch(`http://127.0.0.1:8080/logout?token=${token}`, {
+  const res = await fetch(authUrl+`logout?token=${token}`, {
     method: 'GET',
     // @ts-ignore
     headers: {
@@ -39,7 +40,7 @@ export async function Logout(token:string) {
   return res.ok;
 }
 export async function AuthUser(token:string) {
-  const res = await fetch(`http://127.0.0.1:8080/user/getData?token=${token}`, {
+  const res = await fetch(authUrl+`user/getData?token=${token}`, {
     method: 'GET',
     // @ts-ignore
     headers: {

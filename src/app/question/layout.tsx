@@ -10,9 +10,6 @@ const QuestionLayout = ({children,}: { children: React.ReactNode })=>{
     console.log("logout")
     logout().then(()=>router.push("/login"))
   }
-  const onAskClick = ()=>{
-    router.push("/question/ask")
-  }
   return(
     <>
       <div className={"w-full min-w-sm sm:w-full divide-y divide-gray-300"}>
@@ -42,12 +39,7 @@ const QuestionLayout = ({children,}: { children: React.ReactNode })=>{
               <li><a className={"active"} href={"/question"}>问题</a></li>
             </ul>
           </div>
-          <div className={"w-full max-w-2xl min-w-sm"}>
-            {children}
-          </div>
-          <div className={"hidden lg:flex lg:w-60 p-3"}>
-            <button className={"btn w-full"} onClick={()=>{onAskClick()}}>提问</button>
-          </div>
+          {children}
         </div>
       </div>
     </>

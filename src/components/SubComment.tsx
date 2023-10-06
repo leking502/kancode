@@ -2,6 +2,7 @@
 import {useEffect, useState} from "react";
 import {SubComment} from "@/types/question";
 import {useGetSubCommentList} from "@/hooks/question/useGetSubCommentList";
+import getUpdateTime from "@/util/date";
 type Props = {
   commentId:string
 }
@@ -26,7 +27,7 @@ const SubComment = ({commentId}:Props)=>{
                 <p className={"break-all text-xs"}>{subComment.text}</p>
                 <div className={"px-3"}>{"-"}</div>
                 <div className={"text-sm"}>{subComment.username}</div>
-                <div className={"px-3 text-sm"}>{subComment.date}</div>
+                <div className={"px-3 text-sm"}>{getUpdateTime(parseInt(subComment.date))}</div>
               </div>
             </li>
           )

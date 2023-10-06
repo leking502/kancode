@@ -21,3 +21,15 @@ export interface SubComment{
   text:string,
   date:string,
 }
+export interface SimilarQuestion{
+  Question: {
+    Abstract:string,
+    Date:string,
+    ID:string,
+    Tags:string,
+    Text:string,
+    Title:string,
+    Username:string,
+  },
+  Similarity:number,
+}
